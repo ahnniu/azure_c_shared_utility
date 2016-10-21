@@ -29,7 +29,7 @@
 
 /*Codes_SRS_HTTPAPI_COMPACT_21_076: [ The HTTPAPI_ExecuteRequest shall try to read the message with the response up to 20 times. ]*/
 /*Codes_SRS_HTTPAPI_COMPACT_21_077: [ If the HTTPAPI_ExecuteRequest retries 20 times to receive the message without success, it shall fail and return HTTPAPI_READ_DATA_FAILED. ]*/
-#define MAX_RECEIVE_RETRY   20
+#define MAX_RECEIVE_RETRY   70
 /*Codes_SRS_HTTPAPI_COMPACT_21_078: [ The HTTPAPI_ExecuteRequest shall wait, at least, 100 milliseconds between retries. ]*/
 #define RECEIVE_RETRY_INTERVAL_IN_MICROSECONDS  100
 #define OPEN_RETRY_INTERVAL_IN_MICROSECONDS  100
