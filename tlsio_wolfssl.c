@@ -390,7 +390,11 @@ static int on_io_recv(WOLFSSL *ssl, char *buf, int sz, void *context)
             }
         }
 
-        if ((result == 0) && (tls_io_instance->tlsio_state == TLSIO_STATE_OPEN))
+        if (tls_io_instance->tlsio_state == TLSIO_STATE_ERROR)
+        {
+            result = WOLFSSL_CBIO_ERR_GENERAL;
+        }
+        else if ( (result == 0) && (tls_io_instance->tlsio_state == TLSIO_STATE_OPEN))
         {
             result = WOLFSSL_CBIO_ERR_WANT_READ;
         }
@@ -488,7 +492,7 @@ static int x509_wolfssl_add_credentials(WOLFSSL* ssl, char* x509certificate, cha
         LogError("unable to enable secure renegotiation");
         result = __FAILURE__;
     }
-#endif 
+#endif
     else
     {
         result = 0;
@@ -574,7 +578,7 @@ int tlsio_wolfssl_init(void)
 void tlsio_wolfssl_deinit(void)
 {
 }
- 
+
 CONCRETE_IO_HANDLE tlsio_wolfssl_create(void* io_create_parameters)
 {
     TLS_IO_INSTANCE* result;
@@ -857,10 +861,6 @@ void tlsio_wolfssl_dowork(CONCRETE_IO_HANDLE tls_io)
     }
 }
 
-const IO_INTERFACE_DESCRIPTION* tlsio_wolfssl_get_interface_description(void)
-{
-    return &tlsio_wolfssl_interface_description;
-}
 
 static int process_option(char** destination, const char* name, const char* value)
 {
@@ -946,4 +946,8 @@ int tlsio_wolfssl_setoption(CONCRETE_IO_HANDLE tls_io, const char* optionName, c
     }
 
     return result;
+}
+const IO_INTERFACE_DESCRIPTION* tlsio_wolfssl_get_interface_description(void)
+{
+    return &tlsio_wolfssl_interface_description;
 }
